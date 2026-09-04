@@ -88,3 +88,28 @@ CREATE TABLE Category
         REFERENCES Events(eventID)
 );
 GO
+
+CREATE TABLE Enrollment
+(
+    enrollmentID INT,
+    participantID INT NOT NULL,
+    eventID INT NOT NULL,
+    enrollmentDate DATE NOT NULL,
+    status VARCHAR(30) NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+
+    CONSTRAINT PK_Enrollment_enrollmentID
+        PRIMARY KEY(enrollmentID),
+
+    CONSTRAINT UQ_Enrollment_Participant_Event
+        UNIQUE(participantID, eventID),
+
+    CONSTRAINT FK_Enrollment_Participant
+        FOREIGN KEY(participantID)
+        REFERENCES Participant(participantID),
+
+    CONSTRAINT FK_Enrollment_Event
+        FOREIGN KEY(eventID)
+        REFERENCES Events(eventID)
+);
+GO
