@@ -55,3 +55,21 @@ CREATE TABLE Participant
         REFERENCES Users(usersID)
 );
 GO
+
+CREATE TABLE Events
+(
+    eventID INT,
+    eventName VARCHAR(50) NOT NULL,
+    eventDate DATE NOT NULL,
+    description VARCHAR(255),
+    location VARCHAR(100) NOT NULL,
+    organiserID INT NOT NULL,
+
+    CONSTRAINT PK_Events_eventID
+        PRIMARY KEY(eventID),
+
+    CONSTRAINT FK_Events_Organiser
+        FOREIGN KEY(organiserID)
+        REFERENCES Organiser(organiserID)
+);
+GO
