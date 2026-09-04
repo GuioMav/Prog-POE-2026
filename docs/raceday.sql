@@ -171,3 +171,30 @@ VALUES
 (6, 'Isabel Davis', 9),
 (7, 'James Miller', 10);
 GO
+INSERT INTO Events
+(eventID, eventName, eventDate, description, location, organiserID)
+VALUES
+(1, 'Spring City Run', '2026-09-20',
+ 'A community road running event for all fitness levels.',
+ 'Central Park', 1),
+
+(2, 'Summer Beach Race', '2026-10-11',
+ 'A beach running event featuring multiple race distances.',
+ 'Brighton Beach', 1),
+
+(3, 'Autumn Mountain Challenge', '2026-10-25',
+ 'A challenging trail running event through the Highlands.',
+ 'Highlands', 2),
+
+(4, 'Winter Charity Run', '2026-12-06',
+ 'A charity running event supporting local community projects.',
+ 'City Stadium', 3),
+
+(5, 'Cape Fitness Race', '2026-11-08',
+ 'A fitness-focused road race for recreational and competitive runners.',
+ 'Green Point', 2),
+
+(6, 'New Year Road Race', '2027-01-10',
+ 'A new year road race welcoming runners of different abilities.',
+ 'Main Street', 1);
+GO
