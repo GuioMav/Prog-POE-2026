@@ -152,3 +152,11 @@ VALUES
 ('isabel@example.com', 'IsabelRunner', 'Participant', 'Standard'),
 ('james@example.com', 'JamesRunner', 'Participant', 'Standard');
 GO
+
+INSERT INTO Organiser
+(organiserID, organiserNumber, usersID)
+VALUES
+(1, 1001, 4),
+(2, 1002, 5),
+(3, 1003, 8);
+GO
