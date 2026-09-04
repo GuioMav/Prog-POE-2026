@@ -198,3 +198,37 @@ VALUES
  'A new year road race welcoming runners of different abilities.',
  'Main Street', 1);
 GO
+INSERT INTO Category
+(categoryID, categoryName, eventID)
+VALUES
+
+-- Spring City Run
+(1, '5K Fun Run', 1),
+(2, '10K Race', 1),
+(3, '21K Half Marathon', 1),
+
+-- Summer Beach Race
+(4, '5K Beach Run', 2),
+(5, '10K Beach Race', 2),
+(6, 'Half Marathon', 2),
+
+-- Autumn Mountain Challenge
+(7, '5K Mountain Trail', 3),
+(8, '10K Mountain Trail', 3),
+(9, '15K Mountain Challenge', 3),
+
+-- Winter Charity Run
+(10, '5K Charity Run', 4),
+(11, '10K Charity Run', 4),
+(12, '21K Charity Run', 4),
+
+-- Cape Fitness Race
+(13, '5K Fitness Run', 5),
+(14, '10K Fitness Race', 5),
+(15, '15K Fitness Race', 5),
+
+-- New Year Road Race
+(16, '5K Road Race', 6),
+(17, '10K Road Race', 6),
+(18, '21K New Year Race', 6);
+GO
