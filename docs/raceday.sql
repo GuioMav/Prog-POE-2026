@@ -137,3 +137,18 @@ CREATE TABLE Result
         REFERENCES Events(eventID)
 );
 GO
+
+INSERT INTO Users
+(Email, userName, role, AccountType)
+VALUES
+('alice@example.com', 'AliceRunner', 'Participant', 'Standard'),
+('bob@example.com', 'BobRunner', 'Participant', 'Standard'),
+('carol@example.com', 'CarolRunner', 'Participant', 'Premium'),
+('david@example.com', 'DavidEvents', 'Organiser', 'Admin'),
+('emma@example.com', 'EmmaEvents', 'Organiser', 'Admin'),
+('frank@example.com', 'FrankRunner', 'Participant', 'Standard'),
+('grace@example.com', 'GraceRunner', 'Participant', 'Premium'),
+('henry@example.com', 'HenryEvents', 'Organiser', 'Admin'),
+('isabel@example.com', 'IsabelRunner', 'Participant', 'Standard'),
+('james@example.com', 'JamesRunner', 'Participant', 'Standard');
+GO
