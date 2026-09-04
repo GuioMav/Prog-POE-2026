@@ -73,3 +73,18 @@ CREATE TABLE Events
         REFERENCES Organiser(organiserID)
 );
 GO
+
+CREATE TABLE Category
+(
+    categoryID INT,
+    categoryName VARCHAR(50) NOT NULL,
+    eventID INT NOT NULL,
+
+    CONSTRAINT PK_Category_categoryID
+        PRIMARY KEY(categoryID),
+
+    CONSTRAINT FK_Category_Events
+        FOREIGN KEY(eventID)
+        REFERENCES Events(eventID)
+);
+GO
