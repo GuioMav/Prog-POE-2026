@@ -160,3 +160,14 @@ VALUES
 (2, 1002, 5),
 (3, 1003, 8);
 GO
+INSERT INTO Participant
+(participantID, participantName, usersID)
+VALUES
+(1, 'Alice Johnson', 1),
+(2, 'Bob Smith', 2),
+(3, 'Carol Williams', 3),
+(4, 'Frank Brown', 6),
+(5, 'Grace Wilson', 7),
+(6, 'Isabel Davis', 9),
+(7, 'James Miller', 10);
+GO
