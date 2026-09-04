@@ -1,0 +1,27 @@
+name: Validate Repository Structure
+
+on: [push, pull_request]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Check for docs folder
+        run: |
+          if [ -d "docs" ]; then
+            echo "docs directory exists."
+          else
+            echo "Error: docs directory does not exist."
+            exit 1
+          fi
+
+      - name: Check for SQL script
+        run: |
+          if [ -f "docs/raceday.sql" ]; then
+            echo "SQL script exists in docs folder."
+          else
+            echo "Error: raceday.sql not found in docs folder."
+            exit 1
+          fi
