@@ -262,3 +262,15 @@ VALUES
 (19, 6, 6, '2026-08-29', 'Confirmed', 120.00),
 (20, 7, 6, '2026-08-30', 'Confirmed', 120.00);
 GO
+
+INSERT INTO Result
+(resultID, participantID, eventID, finishingTime, position)
+VALUES
+(1, 1, 1, '00:28:35', 1),
+(2, 2, 1, '00:31:42', 2),
+(3, 3, 1, '00:34:18', 3),
+
+(4, 1, 2, '01:52:20', 1),
+(5, 2, 2, '02:01:45', 2),
+(6, 3, 2, '02:08:30', 3);
+GO  
