@@ -37,3 +37,21 @@ CREATE TABLE Organiser
         REFERENCES Users(usersID)
 );
 GO
+
+CREATE TABLE Participant
+(
+    participantID INT,
+    participantName VARCHAR(50) NOT NULL,
+    usersID INT NOT NULL,
+
+    CONSTRAINT PK_Participant_participantID
+        PRIMARY KEY(participantID),
+
+    CONSTRAINT UQ_Participant_usersID
+        UNIQUE(usersID),
+
+    CONSTRAINT FK_Participant_Users
+        FOREIGN KEY(usersID)
+        REFERENCES Users(usersID)
+);
+GO
