@@ -274,3 +274,11 @@ VALUES
 (5, 2, 2, '02:01:45', 2),
 (6, 3, 2, '02:08:30', 3);
 GO  
+
+SELECT * FROM Users;
+SELECT * FROM Organiser;
+SELECT * FROM Participant;
+SELECT * FROM Events;
+SELECT * FROM Category;
+SELECT * FROM Enrollment;
+SELECT * FROM Result;
