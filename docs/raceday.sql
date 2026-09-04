@@ -19,3 +19,21 @@ CREATE TABLE Users
         UNIQUE(userName)
 );
 GO
+
+CREATE TABLE Organiser
+(
+    organiserID INT,
+    organiserNumber INT,
+    usersID INT NOT NULL,
+
+    CONSTRAINT PK_Organiser_organiserID
+        PRIMARY KEY(organiserID),
+
+    CONSTRAINT UQ_Organiser_usersID
+        UNIQUE(usersID),
+
+    CONSTRAINT FK_Organiser_Users
+        FOREIGN KEY(usersID)
+        REFERENCES Users(usersID)
+);
+GO
