@@ -9,8 +9,13 @@ The RaceDay system is a comprehensive database solution designed for managing ru
 
 ## CI/CD Validation
 The repository uses GitHub Actions to validate the structure (ensuring the SQL scripts and docs folders exist).
-![CI/CD Build Screenshot](link_to_screenshot_here.png)
-*(Please replace the link above with the actual screenshot of your successful green build)*
+
+![CI/CD Build Screenshot](image.png)
+
+## Entity Relationship Diagram (ERD)
+Here is the Entity Relationship Diagram for the RaceDay database:
+
+![RaceDay ERD](docs/ERD%20Image.png)
 
 ## Video Walkthrough
 [Click here to watch the YouTube Video Walkthrough](link_to_youtube_video_here)
