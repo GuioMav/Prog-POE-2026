@@ -18,5 +18,4 @@ Here is the Entity Relationship Diagram for the RaceDay database:
 ![RaceDay ERD](docs/ERD%20Image.png)
 
 ## Video Walkthrough
-[Click here to watch the YouTube Video Walkthrough](link_to_youtube_video_here)
-*(Please replace the link above with the actual YouTube video link)*
+[Click here to watch the YouTube Video Walkthrough](https://youtu.be/wno92xTGZuY)
