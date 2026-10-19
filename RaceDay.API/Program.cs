@@ -28,6 +28,9 @@ builder.Services.AddSession(options =>
 // ASP.NET Core's built-in PBKDF2 password hasher (salted, iterated)
 builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 
+// Errors are returned as RFC 7807 ProblemDetails JSON
+builder.Services.AddProblemDetails();
+
 builder.Services.AddControllers()
     // Send/receive enums as text ("Run", "Organiser") instead of numbers
     .AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
@@ -62,6 +65,10 @@ if (app.Configuration.GetValue("Database:MigrateAndSeed", true))
     await db.Database.MigrateAsync();
     await DbSeeder.SeedAsync(db, scope.ServiceProvider.GetRequiredService<IPasswordHasher<User>>());
 }
+
+// Unhandled exceptions become a generic 500 ProblemDetails (no stack trace sent to the client)
+app.UseExceptionHandler();
+app.UseStatusCodePages();
 
 if (app.Environment.IsDevelopment())
 {
