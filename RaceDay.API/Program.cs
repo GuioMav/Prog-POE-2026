@@ -1,6 +1,8 @@
+using System.Reflection;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi;
 using RaceDay.API.Data;
 using RaceDay.API.Models;
 
@@ -30,7 +32,24 @@ builder.Services.AddControllers()
     // Send/receive enums as text ("Run", "Organiser") instead of numbers
     .AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "RaceDay API",
+        Version = "v1",
+        Description =
+            "REST API for RaceDay, the South African road running, walking and cycling event platform.\n\n" +
+            "**How to test protected endpoints:** call `POST /api/auth/login` first. The API stores your user id " +
+            "and role in a server-side session and the browser keeps the session cookie, so every later request " +
+            "from this page is made as that user. Call `POST /api/auth/logout` to end the session.\n\n" +
+            "Seeded accounts (password `Password123!`): organiser `david@example.com`, participant `alice@example.com`."
+    });
+
+    // Pull the /// summaries, remarks and response descriptions from the XML documentation file
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile));
+});
 
 var app = builder.Build();
 
@@ -47,7 +66,11 @@ if (app.Configuration.GetValue("Database:MigrateAndSeed", true))
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.DocumentTitle = "RaceDay API";
+        options.DisplayRequestDuration();
+    });
 }
 
 app.UseHttpsRedirection();
