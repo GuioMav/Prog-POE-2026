@@ -34,6 +34,16 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Create/upgrade the database from the EF migrations and add sample data when empty.
+// Tests switch this off (Database:MigrateAndSeed = false) and use an in-memory database.
+if (app.Configuration.GetValue("Database:MigrateAndSeed", true))
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<RaceDayDbContext>();
+    await db.Database.MigrateAsync();
+    await DbSeeder.SeedAsync(db, scope.ServiceProvider.GetRequiredService<IPasswordHasher<User>>());
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
