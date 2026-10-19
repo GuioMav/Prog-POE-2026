@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using RaceDay.API.Models;
 
 namespace RaceDay.API.Auth;
@@ -29,18 +30,23 @@ public class SessionAuthorizeAttribute : Attribute, IAuthorizationFilter
 
         if (session.GetUserId() is null)
         {
-            context.Result = Problem(StatusCodes.Status401Unauthorized, "Unauthorized",
+            context.Result = Problem(context.HttpContext, StatusCodes.Status401Unauthorized, "Unauthorized",
                 "You must be logged in to access this resource.");
             return;
         }
 
         if (Roles.Length > 0 && (session.GetRole() is not { } role || !Roles.Contains(role)))
         {
-            context.Result = Problem(StatusCodes.Status403Forbidden, "Forbidden",
+            context.Result = Problem(context.HttpContext, StatusCodes.Status403Forbidden, "Forbidden",
                 $"This action is only available to: {string.Join(", ", Roles)}.");
         }
     }
 
-    private static ObjectResult Problem(int status, string title, string detail) =>
-        new(new ProblemDetails { Status = status, Title = title, Detail = detail }) { StatusCode = status };
+    // Uses the framework's factory so these responses match the API's other errors (type, traceId)
+    private static ObjectResult Problem(HttpContext http, int status, string title, string detail)
+    {
+        var factory = http.RequestServices.GetRequiredService<ProblemDetailsFactory>();
+        var problem = factory.CreateProblemDetails(http, status, title, detail: detail);
+        return new ObjectResult(problem) { StatusCode = status };
+    }
 }
