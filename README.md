@@ -195,7 +195,8 @@ description, role, request body and success/failure responses) and can be tried 
 [`.github/workflows/part2-api.yml`](.github/workflows/part2-api.yml) runs on every push and pull
 request: restore → build (Release) → run all tests → upload the test results.
 
-<!-- TODO: replace with a screenshot of the green Part 2 build after pushing the part-2 branch -->
+Green build of the `part-2` branch ([run #1](https://github.com/GuioMav/Prog-POE-2026/actions/runs/39256844563)) – restore, build and all 126 tests passing:
+
 ![Part 2 CI/CD Build Screenshot](docs/ci-part2.png)
 
 ## Changes to the Part 1 Design
