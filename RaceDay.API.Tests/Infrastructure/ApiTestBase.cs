@@ -21,7 +21,7 @@ public abstract class ApiTestBase : IAsyncLifetime
     protected RaceDayApiFactory Factory { get; } = new();
     protected TestData Data { get; private set; } = null!;
 
-    public async Task InitializeAsync() => Data = await Factory.WithDbAsync(TestData.SeedAsync);
+    public virtual async Task InitializeAsync() => Data = await Factory.WithDbAsync(TestData.SeedAsync);
 
     public async Task DisposeAsync() => await Factory.DisposeAsync();
 
