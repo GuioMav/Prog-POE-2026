@@ -8,12 +8,10 @@ using RaceDay.API.Models;
 namespace RaceDay.API.Controllers;
 
 /// <summary>User profiles. Both roles can view and update only their own profile.</summary>
-[ApiController]
 [Route("api/users")]
-[Produces("application/json")]
 [SessionAuthorize]
 [ProducesResponseType<ProblemDetails>(StatusCodes.Status401Unauthorized)]
-public class UsersController : ControllerBase
+public class UsersController : RaceDayControllerBase
 {
     private readonly RaceDayDbContext _db;
 
@@ -34,12 +32,12 @@ public class UsersController : ControllerBase
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetUser(int id)
     {
-        if (id != HttpContext.Session.GetUserId())
-            return Problem(statusCode: 403, title: "Forbidden", detail: "You can only view your own profile.");
+        if (id != CurrentUserId)
+            return ForbiddenProblem("You can only view your own profile.");
 
         var user = await LoadUser(id);
         if (user is null)
-            return Problem(statusCode: 404, title: "Not Found", detail: "User not found.");
+            return NotFoundProblem("User not found.");
 
         return Ok(UserProfileResponse.From(user));
     }
@@ -62,20 +60,20 @@ public class UsersController : ControllerBase
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> UpdateUser(int id, UpdateProfileRequest request)
     {
-        if (id != HttpContext.Session.GetUserId())
-            return Problem(statusCode: 403, title: "Forbidden", detail: "You can only update your own profile.");
+        if (id != CurrentUserId)
+            return ForbiddenProblem("You can only update your own profile.");
 
         var user = await LoadUser(id);
         if (user is null)
-            return Problem(statusCode: 404, title: "Not Found", detail: "User not found.");
+            return NotFoundProblem("User not found.");
 
         var email = request.Email.Trim().ToLowerInvariant();
         var userName = request.UserName.Trim();
 
         if (await _db.Users.AnyAsync(u => u.UsersId != id && u.Email == email))
-            return Problem(statusCode: 409, title: "Conflict", detail: "That email address is already registered.");
+            return ConflictProblem("That email address is already registered.");
         if (await _db.Users.AnyAsync(u => u.UsersId != id && u.UserName == userName))
-            return Problem(statusCode: 409, title: "Conflict", detail: "That username is already taken.");
+            return ConflictProblem("That username is already taken.");
 
         if (request.DateOfBirth is { } dob && dob > DateOnly.FromDateTime(DateTime.UtcNow))
         {

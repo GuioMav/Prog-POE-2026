@@ -9,10 +9,8 @@ using RaceDay.API.Models;
 namespace RaceDay.API.Controllers;
 
 /// <summary>Registration, login and logout. Login starts a server-side session.</summary>
-[ApiController]
 [Route("api/auth")]
-[Produces("application/json")]
-public class AuthController : ControllerBase
+public class AuthController : RaceDayControllerBase
 {
     private const int FirstOrganiserNumber = 1001;
 
@@ -43,9 +41,9 @@ public class AuthController : ControllerBase
         var userName = request.UserName.Trim();
 
         if (await _db.Users.AnyAsync(u => u.Email == email))
-            return Problem(statusCode: 409, title: "Conflict", detail: "That email address is already registered.");
+            return ConflictProblem("That email address is already registered.");
         if (await _db.Users.AnyAsync(u => u.UserName == userName))
-            return Problem(statusCode: 409, title: "Conflict", detail: "That username is already taken.");
+            return ConflictProblem("That username is already taken.");
 
         var role = request.Role!.Value;
         var user = new User
@@ -106,7 +104,7 @@ public class AuthController : ControllerBase
 
         // Same message for unknown email and wrong password so accounts can't be probed
         if (user is null || _hasher.VerifyHashedPassword(user, user.PasswordHash, request.Password) == PasswordVerificationResult.Failed)
-            return Problem(statusCode: 401, title: "Unauthorized", detail: "Invalid email or password.");
+            return UnauthorizedProblem("Invalid email or password.");
 
         var profile = UserProfileResponse.From(user);
         HttpContext.Session.SignIn(user, profile.ProfileId);
@@ -134,7 +132,7 @@ public class AuthController : ControllerBase
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Me()
     {
-        var userId = HttpContext.Session.GetUserId();
+        var userId = CurrentUserId;
         var user = await _db.Users
             .Include(u => u.Organiser)
             .Include(u => u.Participant)
@@ -144,7 +142,7 @@ public class AuthController : ControllerBase
         {
             // The account was removed after login - the session is no longer valid
             HttpContext.Session.Clear();
-            return Problem(statusCode: 401, title: "Unauthorized", detail: "Your session is no longer valid.");
+            return UnauthorizedProblem("Your session is no longer valid.");
         }
 
         return Ok(UserProfileResponse.From(user));
